@@ -15,11 +15,21 @@ p = zeros(m, 1);
 %               You should set p to a vector of 0's and 1's
 %
 
+% Set options for fminunc
+%options = optimset('GradObj', 'on', 'MaxIter', 400);
 
+% Run fminunc to obtain the optimal theta
+% This function will return theta and the cost
+%[theta, cost] = (@(t) (costFunction(t, X, y)), intital_theta, options);
 
-
-
-
+vals = X * theta;
+for i = 1:size(p)
+    if sigmoid(vals(i,1)) >= 0.5
+        p(i) = 1;
+    else
+        p(i) = 0;
+    end
+end
 
 % =========================================================================
 
