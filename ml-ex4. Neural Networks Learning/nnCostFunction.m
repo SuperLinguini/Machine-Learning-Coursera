@@ -62,6 +62,7 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+%Feedforward and cost function
 X = [ones(m,1) X];
 a2 = sigmoid(Theta1 * X');
 a3 = sigmoid(Theta2 * [ones(1,size(a2,2)); a2]);
@@ -72,9 +73,13 @@ for i = 1:m
     yMatrix(i, y(i)) = 1;
 end
 
-list = (-y .* log(h) - (1-y) .* log(1-h));
+list = (-yMatrix .* log(h) - (1-yMatrix) .* log(1-h));
 J = (1/m) * sum(list(:));
 
+
+% Regularized cost function
+J = J + (lambda/(2*m)) * ( sum(sum(Theta1(:,(2:end)) .^ 2)) + ...
+    sum(sum(Theta2(:,(2:end)) .^ 2)) );
 
 
 % -------------------------------------------------------------
