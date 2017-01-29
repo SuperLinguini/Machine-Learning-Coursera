@@ -63,6 +63,7 @@ Theta2_grad = zeros(size(Theta2));
 %
 
 %Feedforward and cost function
+
 X = [ones(m,1) X];
 a2 = sigmoid(Theta1 * X');
 a3 = sigmoid(Theta2 * [ones(1,size(a2,2)); a2]);
@@ -81,8 +82,27 @@ J = (1/m) * sum(list(:));
 J = J + (lambda/(2*m)) * ( sum(sum(Theta1(:,(2:end)) .^ 2)) + ...
     sum(sum(Theta2(:,(2:end)) .^ 2)) );
 
-% Backpropagation
+% Backpropagation Algorithm
 
+for t = 1:m
+   a1 = X(t,:)';
+   z2 = Theta1 * a1;
+   a2 = [1; sigmoid(z2)];
+   z3 = Theta2 * a2;
+   a3 = sigmoid(z3);
+   
+   d3 = a3 - yMatrix(t,:)';
+   d2 = (Theta2' * d3) .* [1; sigmoidGradient(z2)];
+   d2 = d2(2:end);
+   
+   Theta2_grad = Theta2_grad + d3 * a2';
+   Theta1_grad = Theta1_grad + d2 * a1';
+end
+
+Theta1_grad = (1/m) * Theta1_grad + (lambda/m) * ...
+    [zeros(size(Theta1,1),1) Theta1(:,(2:end))];
+Theta2_grad = (1/m) * Theta2_grad + (lambda/m) * ...
+    [zeros(size(Theta2,1),1) Theta2(:,(2:end))];
 
 
 % -------------------------------------------------------------
