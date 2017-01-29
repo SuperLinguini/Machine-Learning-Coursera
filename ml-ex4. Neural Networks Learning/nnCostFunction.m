@@ -81,6 +81,9 @@ J = (1/m) * sum(list(:));
 J = J + (lambda/(2*m)) * ( sum(sum(Theta1(:,(2:end)) .^ 2)) + ...
     sum(sum(Theta2(:,(2:end)) .^ 2)) );
 
+% Backpropagation
+
+
 
 % -------------------------------------------------------------
 
